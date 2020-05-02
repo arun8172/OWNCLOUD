@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+
+
+
+        dbos:
+
+                image: mysql:5.7
+
+
+                volumes:
+
+                      - mysql_storage:/var/lib/mysql
+
+
+
+                environment:
+
+                        MYSQL_ROOT_PASSWORD: rootpass
+
+                        MYSQL_USER: redhat
+
+                        MYSQL_PASSWORD: redhat
+
+                        MYSQL_DATABASE: mydb
+
+
+
+                restart: always
+
+        owncloud:
+
+                image: owncloud:latest
+
+                volumes:
+
+                       - owncloud_Storage:/var/www/html
+
+
+                depends_on:
+
+                           - dbos
+
+
+                ports: 
+
+                      - 8081:80
+
+                environment:
+
+                        OWNCLOUD_DB_HOST: dbos
+
+                        OWNCLOUD_DB_USER: redhat
+
+                        OWNCLOUD_DB_PASSWORD: redhat
+
+                        OWNCLOUD_DB_NAME: mydb
+
+                restart: always
+
+
+  volumes:
+
+           owncloud_storage:
+
+           mysql_storage:
